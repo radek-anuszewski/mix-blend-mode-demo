@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>mix-blend-mode demo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+      :root {
+          --background-color: black;
+          --text-color: white;
+          --mix-blend-mode: difference;
+          --url: url('pexels-dimitri-weber-6199960.jpg');
+      }
+
+      .parent {
+          background-color: var(--background-color);
+          width: 200px;
+          height: 200px;
+      }
+
+      .url-background {
+          width: 300px;
+          height: 300px;
+          background-image: var(--url);
+          background-size: cover;
+      }
+
+      .child {
+          color: var(--text-color);
+          font-size: 30px;
+          mix-blend-mode: var(--mix-blend-mode);
+      }
+
+      .center-content {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+      }
+  </style>
+</head>
+<body>
+<h1>
+  Mix blend mode demo
+</h1>
+<article>
+  <h2>
+    Change background color and text color and see how text color changes
+  </h2>
+  <label for="background-color">Background color</label>
+  <input id="background-color" type="color">
+  <br>
+  <label for="text-color">Text color</label>
+  <input id="text-color" value="#FFFFFF" type="color">
+  <br>
+  <label for="mix-blend-mode">Mix blend mode</label>
+  <select id="mix-blend-mode">
+    <option>normal</option>
+    <option>multiply</option>
+    <option>screen</option>
+    <option>overlay</option>
+    <option>darken</option>
+    <option>lighten</option>
+    <option>color-dodge</option>
+    <option>color-burn</option>
+    <option>hard-light</option>
+    <option>soft-light</option>
+    <option selected>difference</option>
+    <option>exclusion</option>
+    <option>hue</option>
+    <option>saturation</option>
+    <option>color</option>
+    <option>luminosity</option>
+  </select>
+  <div class="parent center-content">
+    <span class="child">
+      Some text
+    </span>
+  </div>
+</article>
+<article>
+  <h2>
+    Change background image url to your image and see how text color changes
+  </h2>
+  <label for="url">Paste your image url</label>
+  <input id="url" value="pexels-dimitri-weber-6199960.jpg" type="url">
+  <br>
+  <label for="url-predefined">Select from predefined</label>
+  <select id="url-predefined">
+    <option>pexels-dimitri-weber-6199960.jpg</option>
+    <option>pexels-dimitri-weber-6199967.jpg</option>
+    <option>pexels-karley-saagi-4142200.jpg</option>
+    <option>pexels-rachel-claire-4857736.jpg</option>
+    <option>pexels-rachel-claire-6146786.jpg</option>
+    <option>pexels-rachel-claire-6146231.jpg</option>
+  </select>
+  <div>
+    Authors of predefined images:
+    <ol>
+      <li><a href="https://www.pexels.com/pl-pl/@dimitri-weber-2004357" target="_blank">Dimitri Weber from Pexels</a></li>
+      <li><a href="https://www.pexels.com/pl-pl/@karleykosmos" target="_blank">Karley Saagi from Pexels</a></li>
+      <li><a href="https://www.pexels.com/pl-pl/@rachel-claire" target="_blank">Rachel Claire from Pexels</a></li>
+    </ol>
+  </div>
+  <div class="url-background center-content">
+    <span class="child">
+      Some text
+    </span>
+  </div>
+</article>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const body = document.querySelector('body');
+    const createOnChange = property  => e => {
+      body
+        .style
+        .setProperty(property, e.target.value);
+    }
+    const setupChangeListener = (el, prop) => {
+      document.querySelector(el)
+        .addEventListener(
+          'change',
+          createOnChange(prop)
+        );
+    }
+
+    setupChangeListener('#background-color', '--background-color');
+    setupChangeListener('#mix-blend-mode', '--mix-blend-mode');
+    setupChangeListener('#text-color', '--text-color');
+
+    document.querySelector('#url')
+      .addEventListener(
+        'change',
+        e => body.style.setProperty('--url', `url(${e.target.value})`)
+      );
+    document.querySelector('#url-predefined').addEventListener('change', e => {
+      document.querySelector('#url').value = e.target.value;
+      body.style.setProperty('--url', `url(${e.target.value})`)
+    });
+  });
+</script>
+</body>
+</html>
